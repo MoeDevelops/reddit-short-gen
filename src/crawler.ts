@@ -1,5 +1,5 @@
-import { mkdir, rm, writeFile } from "node:fs"
-import puppeteer, { type Browser, type Page } from "puppeteer"
+import { mkdir, rm } from "node:fs"
+import puppeteer, { type Browser } from "puppeteer"
 
 async function login(sessionid: string, browser: Browser) {
   if (sessionid === "") {
