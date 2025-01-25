@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    assignees:
+      - "MoeDevelops"
+    schedule:
+      interval: "weekly"
+      timezone: "Europe/Berlin"
+      day: "sunday"
+      time: "10:00"
