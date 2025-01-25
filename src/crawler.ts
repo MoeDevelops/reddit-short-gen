@@ -1,11 +1,5 @@
-import { mkdir, rmdir } from "node:fs"
-import puppeteer, { type Browser } from "puppeteer"
-
-async function wait(ms: number) {
-  await new Promise((res) => {
-    setTimeout(res, ms)
-  })
-}
+import { mkdir, rm, writeFile } from "node:fs"
+import puppeteer, { type Browser, type Page } from "puppeteer"
 
 async function login(sessionid: string, browser: Browser) {
   if (sessionid === "") {
@@ -25,12 +19,23 @@ async function login(sessionid: string, browser: Browser) {
         secure: true,
         session: true,
       },
+      {
+        name: "eu_cookie",
+        value: "{%22opted%22:true%2C%22nonessential%22:false}",
+        domain: ".reddit.com",
+        path: "/",
+        expires: -1,
+        size: 820,
+        httpOnly: true,
+        secure: true,
+        session: true,
+      },
     ],
   )
 }
 
 export async function takeScreenshots(sessionid: string, url: string) {
-  rmdir("out/", () => {})
+  rm("out/", { recursive: true }, () => {})
   mkdir("out/", {}, () => {})
   const browser = await puppeteer.launch({
     headless: true,
@@ -44,19 +49,17 @@ export async function takeScreenshots(sessionid: string, url: string) {
   await page.setViewport({ width: 1080, height: 1920 })
   await page.goto(url)
   await page.waitForSelector("shreddit-comment")
-  await wait(1000)
+
+  await page.screenshot({ path: "out/screenshot.png" })
 
   const comments = await page.$$("shreddit-comment[depth='0']")
 
   for (let i = 0; i < comments.length && i < 10; i++) {
-    await wait(100)
     const comment = comments[i]
     await comment.screenshot({
       path: `out/screenshot${i}.png`,
     })
   }
-
-  await page.screenshot({ path: "out/screenshot.png" })
 
   await browser.close()
 }
