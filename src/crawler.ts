@@ -69,7 +69,7 @@ async function filterComments(comments: ElementHandle<Element>[]) {
             return { children: children, text: text }
         })
 
-        if (result.children > 100) {
+        if (result.children > 100 || result.text.length > 300) {
             continue
         }
 
@@ -97,6 +97,7 @@ export async function takeScreenshots(sessionid: string, url: string) {
 
     mkdir("out/screenshots", { recursive: true }, () => {})
     mkdir("out/comments", { recursive: true }, () => {})
+    mkdir("out/audios", { recursive: true }, () => {})
 
     const comments = await page.$$("shreddit-comment[depth='0']")
 
