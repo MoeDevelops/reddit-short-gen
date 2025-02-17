@@ -14,10 +14,8 @@ async function login(sessionid: string, browser: Browser) {
                 domain: ".reddit.com",
                 path: "/",
                 expires: -1,
-                size: 820,
                 httpOnly: true,
                 secure: true,
-                session: true,
             },
             {
                 name: "eu_cookie",
@@ -25,10 +23,8 @@ async function login(sessionid: string, browser: Browser) {
                 domain: ".reddit.com",
                 path: "/",
                 expires: -1,
-                size: 820,
                 httpOnly: true,
                 secure: true,
-                session: true,
             },
         ],
     )
