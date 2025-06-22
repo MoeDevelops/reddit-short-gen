@@ -1,5 +1,5 @@
 import { mkdir, rm, writeFile } from "node:fs"
-import puppeteer, { type ElementHandle, type Browser } from "puppeteer"
+import puppeteer, { type Browser, type ElementHandle } from "puppeteer"
 
 async function login(sessionid: string, browser: Browser) {
     if (sessionid === "") {
