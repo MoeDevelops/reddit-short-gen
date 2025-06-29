@@ -10,7 +10,7 @@
         "format": "npx biome check --write"
     },
     "devDependencies": {
-        "@biomejs/biome": "^2.0.4",
+        "@biomejs/biome": "^2.0.6",
         "@types/fluent-ffmpeg": "^2.1.27",
         "typescript": "^5.8.3"
     },
