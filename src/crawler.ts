@@ -54,21 +54,30 @@ async function filterComments(comments: ElementHandle<Element>[]) {
 
 			childrenTree(element)
 
-			const text =
-				element.children
-					.item(2)
-					?.children.item(0)
-					?.children.item(0)
-					?.textContent?.trim() ?? ""
+			const pParent = element.children.item(2)?.children.item(0)
+
+			let text = ""
+
+			for (let i = 0; i < (pParent?.children.length ?? 0); i++) {
+				const element = pParent?.children.item(i)
+				const textContent = element?.textContent?.trim()
+				if (textContent) {
+					text += textContent
+				}
+			}
+
+			text = text.replaceAll("  ", " ")
 
 			return { children: children, text: text }
 		})
 
-		if (result.children > 100 || result.text.length > 300) {
-			continue
+		if (
+			result.children < 100 &&
+			result.text.length < 300 &&
+			result.text.length > 1
+		) {
+			acceptedComments.push({ elementHandle: comment, text: result.text })
 		}
-
-		acceptedComments.push({ elementHandle: comment, text: result.text })
 	}
 
 	return acceptedComments
@@ -84,7 +93,7 @@ export async function takeScreenshots(sessionId: string, url: string) {
 	await page.setUserAgent(
 		"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
 	)
-	await page.setViewport({ width: 400, height: 1920, deviceScaleFactor: 4 })
+	await page.setViewport({ width: 800, height: 1920, deviceScaleFactor: 4 })
 	await page.goto(url)
 	await page.waitForSelector("shreddit-comment")
 
